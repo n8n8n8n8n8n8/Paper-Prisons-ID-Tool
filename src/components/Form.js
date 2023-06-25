@@ -44,7 +44,6 @@ const Form = ({ data = [], onSubmit = () => {}, questionFlow = {} }) => {
               src="https://paperprisons.org/images/logo.png"
               className="logo"
             />
-            <span>{q.id}</span>
             {React.createElement(fieldComponents[q.type], {
               ...q,
               key: q.id,
