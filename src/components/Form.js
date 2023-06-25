@@ -1,50 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import FormCheckboxQuestion from "./FormCheckboxQuestion";
 import FormRadioButtonQuestion from "./FormRadioButtonQuestion";
 import FormDropDownQuestion from "./FormDropDownQuestion";
+import FormText from "./FormText";
 
 const fieldComponents = {
   checkbox: FormCheckboxQuestion,
   radio: FormRadioButtonQuestion,
-  dropdown: FormDropDownQuestion
+  dropdown: FormDropDownQuestion,
+  text: FormText
 };
 
-const Form = ({ data = [], onSubmit = () => {} }) => {
-  const [current, setCurrent] = useState(0);
+const Form = ({ data = [], onSubmit = () => {}, questionFlow = {} }) => {
+  const [current, setCurrent] = useState("");
   const [surveyResult, setSurveyResult] = useState({});
-
   const onChange = (id, value) => {
     setSurveyResult({
       ...surveyResult,
       [id]: value
     });
-    onNext();
   };
 
-  const onNext = () => setCurrent(current + 1);
-  const onPrevious = () => setCurrent(current - 1);
+  useEffect(() => {
+    setCurrent(data[0]?.id);
+  }, [data]);
+
+  const onNext = () => {
+    setCurrent(questionFlow.next[current][surveyResult[current]]);
+  };
+  // setCurrent(
+  //   surveyResult.current
+  // );
+
+  const onPrevious = () => setCurrent(questionFlow.prev[current]);
   return (
     <div className="dynamic-form">
       {data.map((q, index) =>
-        index === current
-          ? React.createElement(fieldComponents[q.type], {
+        q.id === current ? (
+          <div className="questionWrapper">
+            <img
+              alt="logo"
+              src="https://paperprisons.org/images/logo.png"
+              className="logo"
+            />
+            <span>{q.id}</span>
+            {React.createElement(fieldComponents[q.type], {
               ...q,
               key: q.id,
               value: surveyResult[q.id] || null,
               onChange
-            })
-          : null
+            })}
+            <div className="dynamic-form-buttons">
+              {current !== data[0].id && (
+                <button onClick={onPrevious}>Previous</button>
+              )}
+              {/* {current !== data[data.length - 1].id &&
+                surveyResult[data[current]?.id]?.length > 0 && ( */}
+              {questionFlow.next[current][surveyResult[current]] && (
+                <button onClick={onNext}>Next</button>
+              )}
+              {/* {current === data[data.length - 1].id &&
+                surveyResult[data[current]?.id]?.length > 0 && (
+                  <button onClick={() => onSubmit(surveyResult)}>Submit</button>
+                )} */}
+            </div>
+          </div>
+        ) : null
       )}
-      <div className="dynamic-form-buttons">
-        {current !== 0 && <button onClick={onPrevious}>Previous</button>}
-        {current !== data.length - 1 && surveyResult[data[current]?.id] && (
-          <button onClick={onNext}>Next</button>
-        )}
-        {current === data.length - 1 && surveyResult[data[current]?.id] && (
-          <button onClick={() => onSubmit(surveyResult)}>Submit</button>
-        )}
-      </div>
     </div>
   );
 };

@@ -10,7 +10,6 @@ const FormCheckboxField = ({ label, checked = false, onChange = () => {} }) => {
           onChange={(e) => onChange(label)}
           checked={checked}
         />
-        <span className={"dynamic-form-checkbox-field-checkmark"} />
         <span
           className={"dynamic-form-checkbox-field-label-text"}
           dangerouslySetInnerHTML={{ __html: label }}

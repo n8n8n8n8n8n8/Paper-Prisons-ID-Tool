@@ -20,7 +20,10 @@ const FormCheckboxQuestion = ({
   };
   return (
     <div className={"dynamic-form-field dynamic-form-checkbox-question"}>
-      <p dangerouslySetInnerHTML={{ __html: id + ". " + title }} />
+      <h2
+        dangerouslySetInnerHTML={{ __html: title }}
+        className="questionTitle"
+      />
       {options.map((option, idx) => {
         if (typeof option === "string" || option instanceof String) {
           return (
@@ -34,7 +37,10 @@ const FormCheckboxQuestion = ({
         }
         return (
           <div key={`${idx}`}>
-            <p dangerouslySetInnerHTML={{ __html: option.title }} />
+            <p
+              className="sectionTitle"
+              dangerouslySetInnerHTML={{ __html: option.title }}
+            />
             {option.options.map((oop, idxx) => (
               <FormCheckboxField
                 key={`${idxx}`}

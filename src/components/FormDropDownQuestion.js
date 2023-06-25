@@ -18,7 +18,10 @@ const FormDropDownQuestion = ({
 
   return (
     <div className={"dynamic-form-field dynamic-form-dropdown-question"}>
-      <p dangerouslySetInnerHTML={{ __html: id + ". " + title }} />
+      <p
+        dangerouslySetInnerHTML={{ __html: title }}
+        className="questionTitle"
+      />
       <label onClick={onOptionsToggle}>
         {checked || "Please select an option"}
       </label>

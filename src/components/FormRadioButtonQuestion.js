@@ -15,7 +15,10 @@ const FormRadioButtonQuestion = ({
   };
   return (
     <div className={"dynamic-form-field dynamic-form-radio-question"}>
-      <p dangerouslySetInnerHTML={{ __html: id + ". " + title }} />
+      <p
+        dangerouslySetInnerHTML={{ __html: title }}
+        className="questionTitle"
+      />
       {options.map((option, idx) => {
         return (
           <FormRadioButtonField
